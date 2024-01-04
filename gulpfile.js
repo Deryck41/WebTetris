@@ -29,7 +29,7 @@ gulp.task('scripts-all', function() { // Таск для "js" (перенос)
 
 gulp.task('scripts-min', function() { // Таск для "js" (минификация)
 	return gulp.src('app/js/script.js')
-		.pipe(uglify())
+		//.pipe(uglify())
 		.pipe(rename({suffix: '.min'}))
 		.pipe(gulp.dest('app/js'))
 		.pipe(gulp.dest('dist/js'))
@@ -46,7 +46,7 @@ gulp.task('html', function() { // Таск для "html"
 gulp.task('browser-sync', function() { // Создаём таск browser-sync
 	browserSync({
 		server: {
-			baseDir: 'app' // Директория для сервера - app
+			baseDir: 'dist' // Директория для сервера - app
 		},
 		notify: false // Отключаем уведомления
 	});
