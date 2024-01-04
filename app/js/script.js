@@ -1,13 +1,20 @@
 import Drawer from './drawer.js';
+import Generator from './generator.js'
+import Figure from './figure.js'
 
 const canvas = document.getElementById("gameField");
 const ctx = canvas.getContext("2d");
 
-var drawer = new Drawer(ctx, 50);
-drawer.DrawBlock(10, 200, "orange");
-drawer.DrawBlock(80, 200, "blue");
-drawer.DrawBlock(150, 200, "yellow");
-drawer.DrawBlock(220, 200, "green");
-drawer.DrawBlock(290, 200, "red");
-drawer.DrawBlock(360, 200, "purple");
-drawer.DrawBlock(430, 200, "lightblue");
+let font = new FontFace("PS2P", "url(js/assets/PressStart2P-vaV7.ttf)");
+	font.load().then(() =>{
+	document.fonts.add(font);
+	drawer.DrawScore();
+});
+
+var drawer = new Drawer(ctx, 20);
+drawer.DrawField();
+
+let figure = new Figure(Generator.GenerateRandomCoordX(), 0, Generator.GenerateRandomFigureCells(), Generator.GenerateRandomColor(), "test");
+drawer.DrawFigure(figure);
+figure.ChangeX(1);
+drawer.DrawFigure(figure);

@@ -1,5 +1,12 @@
+body{
+	background-color: #161616;
+}
+
+.wrapper{
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+}
 #gameField{
-	width: 600px;
-	height: 600px;
-	background: #EEE;
+
 }
