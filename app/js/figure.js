@@ -3,13 +3,11 @@ export default class Figure{
 	#x;
 	#y;
 	#color;
-	#orientation;
-	constructor (x, y, cells, color, orientation){
+	constructor (x, y, cells, color){
 		this.#cells = cells;
 		this.#x = x;
 		this.#y = y;
 		this.#color = color;
-		this.#orientation = orientation;
 	}
 
 	GetX() { return this.#x;}
@@ -17,5 +15,16 @@ export default class Figure{
 	GetColor() { return this.#color;}
 	GetCells() { return this.#cells;}
 
-	ChangeX(x){ this.#x = x;}
+	Move(x, y){
+		this.#x += x;
+		this.#y += y;
+	}
+
+	MoveX(x){
+		this.#x += x;
+	}
+
+	MoveY(y){
+		this.#y += y;
+	}
 }
