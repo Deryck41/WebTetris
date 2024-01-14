@@ -6,7 +6,7 @@ const canvas = document.getElementById("gameField");
 const ctx = canvas.getContext("2d");
 
 let drawer = new Drawer(ctx, 20);
-let gameObject = new GameObject(10, 20, drawer, 400);
+let gameObject = new GameObject(10, 20, drawer, 60, 0.05);
 
 let font = new FontFace("PS2P", "url(js/assets/PressStart2P-vaV7.ttf)");
 	font.load().then(() =>{

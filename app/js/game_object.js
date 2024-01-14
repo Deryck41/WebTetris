@@ -6,19 +6,25 @@ import Block from './block.js'
 
 export default class GameObject{
 	#drawer;
-	#speed;  // delta setInterval time
+	#speed;
+	#deltaY;
 	#figure;
 	#blocks;
 	#width;
 	#height;
-	constructor(width, height, drawer, speed){
+	#targetFPS;
+	#lastUpdateTime;
+	constructor(width, height, drawer, targetFPS, speed){
 		this.#width = width;
 		this.#height = height;
 		this.#drawer = drawer;
 		this.#drawer.SetSize(this.#width, this.#height);
-		this.#speed = speed;
+		this.#targetFPS = 1000 / targetFPS;
 		this.#blocks = [];
+		this.#speed = speed;
+		this.#deltaY = 0;
 		this.#figure = new Figure(Generator.GenerateRandomCoordX(), -5, Generator.GenerateRandomFigureCells(), Generator.GenerateRandomColor());
+		this.#lastUpdateTime = performance.now();
 	}
 
 	#FigureToBlocks(){
@@ -27,12 +33,12 @@ export default class GameObject{
 		const color = this.#figure.GetColor();
 
 		this.#figure.GetCells().forEach((row, y) => {
-            row.forEach((cell, x) => {
-                if (cell) {
-                    this.#blocks.push(new Block(x + figureX, y + figureY, color));
-                }
-            });
-        });
+			row.forEach((cell, x) => {
+				if (cell) {
+					this.#blocks.push(new Block(x + figureX, y + figureY, color));
+				}
+			});
+		});
 	}
 
 	#MoveFigureX(x){
@@ -59,15 +65,26 @@ export default class GameObject{
 		}
 	}
 	#Update(){
-		if(Helper.CheckIfColide(this.#figure, this.#blocks, this.#height)){
-			this.#FigureToBlocks();
+		const currentTime = performance.now();
+		const elapsedTime = currentTime - this.#lastUpdateTime;
 
-			// create new figure with y -4 b'coz height of cell matrix is 4.
-			this.#figure = new Figure(Generator.GenerateRandomCoordX(), -4, Generator.GenerateRandomFigureCells(), Generator.GenerateRandomColor());
-			return;
+		if (elapsedTime  > this.#targetFPS){
+			if(Helper.CheckIfColide(this.#figure, this.#blocks, this.#height)){
+				this.#FigureToBlocks();
+
+				// create new figure with y -4 b'coz height of cell matrix is 4.
+				this.#figure = new Figure(Generator.GenerateRandomCoordX(), -4, Generator.GenerateRandomFigureCells(), Generator.GenerateRandomColor());
+				return;
+			}
+			this.#deltaY += this.#speed;
+			console.log(this.#deltaY);
+			if (parseInt(this.#deltaY) >= 1){
+				this.#figure.MoveY(parseInt(this.#deltaY));
+				this.#deltaY = 0;
+			}
+			
+			this.#lastUpdateTime = currentTime;
 		}
-		this.#figure.MoveY(1);
-
 	}
 	#Render(){
 		this.#drawer.DrawScore();
@@ -80,9 +97,13 @@ export default class GameObject{
 
 	MainLoop(){
 		document.addEventListener('keydown', this.#HandleInput.bind(this));
-		setInterval(() => {
+
+		const animate = () => {
 			this.#Update();
 			this.#Render();
-		}, this.#speed);
+			requestAnimationFrame(animate);
+		};
+
+		requestAnimationFrame(animate);
 	}
 }
