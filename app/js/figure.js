@@ -10,6 +10,10 @@ export default class Figure{
 		this.#color = color;
 	}
 
+	SetCells(cells){
+		this.#cells = cells;
+	}
+
 	GetX(){
 		return this.#x;
 	}

@@ -47,6 +47,13 @@ export default class GameObject{
 		}
 	}
 
+	#RotateFigure(){
+		// TODO: Add Colide ceck
+		Helper.RotateFigure(this.#figure);
+
+	}
+
+
 	#HandleInput(event){
 		console.log(event.keyCode);
 		switch (event.keyCode){
@@ -62,6 +69,17 @@ export default class GameObject{
 
 				this.#MoveFigureX(1);
 				break;
+			case 38: // upArrow
+			case 87: // w
+				// rotate
+
+				this.#RotateFigure();
+				break;
+			case 40: // downArrow
+			case 83: // s
+				// acselerate move
+
+				this.#deltaY += this.#speed * 2;
 		}
 	}
 	#Update(){
@@ -71,13 +89,16 @@ export default class GameObject{
 		if (elapsedTime  > this.#targetFPS){
 			if(Helper.CheckIfColide(this.#figure, this.#blocks, this.#height)){
 				this.#FigureToBlocks();
+				const linesFilled = Helper.CheckLinesFilled(this.#blocks);
 
+				if (linesFilled.length > 0){
+					this.#blocks = Helper.ClearLines(linesFilled, this.#blocks);
+				}
 				// create new figure with y -4 b'coz height of cell matrix is 4.
 				this.#figure = new Figure(Generator.GenerateRandomCoordX(), -4, Generator.GenerateRandomFigureCells(), Generator.GenerateRandomColor());
 				return;
 			}
 			this.#deltaY += this.#speed;
-			console.log(this.#deltaY);
 			if (parseInt(this.#deltaY) >= 1){
 				this.#figure.MoveY(parseInt(this.#deltaY));
 				this.#deltaY = 0;
