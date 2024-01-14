@@ -10,10 +10,18 @@ export default class Figure{
 		this.#color = color;
 	}
 
-	GetX() { return this.#x;}
-	GetY() { return this.#y;}
-	GetColor() { return this.#color;}
-	GetCells() { return this.#cells;}
+	GetX(){
+		return this.#x;
+	}
+	GetY(){
+		return this.#y;
+	}
+	GetColor(){
+		return this.#color;
+	}
+	GetCells(){
+		return this.#cells;
+	}
 
 	Move(x, y){
 		this.#x += x;

@@ -8,8 +8,16 @@ export default class Block{
 		this.#color = color;
 	}
 
-	GetX() { return this.#x;}
-	GetY() { return this.#y;}
-	GetColor() { return this.#color;}
-	MoveDown(level) { this.#y += level}
+	GetX(){
+		return this.#x;
+	}
+	GetY(){
+		return this.#y;
+	}
+	GetColor(){
+		return this.#color;
+	}
+	MoveDown(level){
+		this.#y += level
+	}
 }
